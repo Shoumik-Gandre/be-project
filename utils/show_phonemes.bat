@@ -1,0 +1,1 @@
+python -m allosaurus.bin.list_phone --lang eng
