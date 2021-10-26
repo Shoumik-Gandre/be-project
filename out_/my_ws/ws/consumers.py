@@ -1,11 +1,12 @@
 import json
 from queue import Queue
+from collections import deque
 import signal
-from typing import Dict
+from typing import Dict, Deque
 
 import sounddevice as sd
 from channels.generic.websocket import WebsocketConsumer
-from .apps import JaishrutiConfig
+from .apps import WsConfig
 
 
 class WSConsumer(WebsocketConsumer):
@@ -13,6 +14,7 @@ class WSConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
         q: Queue[bytes] = Queue()
+        data_store: Deque[bytes] = deque()
 
         def callback(in_data, frames, time, status):
             q.put(bytes(in_data))
@@ -29,8 +31,9 @@ class WSConsumer(WebsocketConsumer):
                 if i <= 5:
                     while True:
                         data = q.get()
-                        if JaishrutiConfig.vosk_asr.AcceptWaveform(data):
-                            results: Dict[str, str] = json.loads(JaishrutiConfig.vosk_asr.Result())
+                        data_store.append(data)
+                        if WsConfig.vosk_asr.AcceptWaveform(data):
+                            results: Dict[str, str] = json.loads(WsConfig.vosk_asr.Result())
                             self.send(json.dumps({'message': "\n\n" + results["text"]}))
                             results.clear()
                             i = i + 1

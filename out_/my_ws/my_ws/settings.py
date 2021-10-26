@@ -24,14 +24,17 @@ SECRET_KEY = 'django-insecure-a*dh4gqp^2mg#&-cx4kr3y+@-j3q^h=tuqql4=+*x-#!y^9+=-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+LOAD_MODELS = not False
+
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
     'channels',
     'chat',
-    'jaishruti',
+    'recorder',
+    # 'ws',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,14 +74,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'my_ws.wsgi.application'
 ASGI_APPLICATION = "my_ws.asgi.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
 
 CHANNEL_LAYERS = {
     "default": {

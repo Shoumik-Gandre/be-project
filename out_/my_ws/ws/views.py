@@ -14,4 +14,4 @@ def index(request):
         'word_list': word_list,
         'text': ''
     }
-    return render(request, 'jaishruti/index.html', context)
+    return render(request, 'ws/index.html', context)
